@@ -55,7 +55,6 @@ ZSH_THEME="robbyrussell"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -116,51 +115,8 @@ bindkey "[C" forward-word
 bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
 
-# git
-alias push='git push'
-alias pull='git pull'
-alias fpush='git push -f'
-alias fpull='git pull -f'
-alias gc='git commit -S'
-alias reb='g rebase -i master'
-
-# brainly
-alias tests='./script/test'
-alias stop='./script/stop'
-
-# vim aliases
-bindkey "[D" backward-word
-bindkey "[C" forward-word
-bindkey "^[a" beginning-of-line
-bindkey "^[e" end-of-line
-
-# git
-alias push='git push'
-alias pull='git pull'
-alias fpush='git push -f'
-alias fpull='git pull -f'
-alias gc='git commit -S'
-alias reb='g rebase -i master'
-alias start-amq='~/apps/activemq/bin/activemq start'
-alias stop-amq='~/apps/activemq/bin/activemq stop'
-
-# brainly
-alias tests='./script/test'
-alias stop='./script/stop'
-
-# vim aliases
-bindkey "[D" backward-word
-bindkey "[C" forward-word
-bindkey "^[a" beginning-of-line
-bindkey "^[e" end-of-line
-
 eval $(thefuck --alias) 
 
-export PATH=/Users/bkielbasa/.gem/ruby/2.3.0/bin:$PATH
-source ~/.rvm/scripts/rvm
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="/usr/local/sbin:$PATH"
 export GOROOT=~/Projects/go
 
