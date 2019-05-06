@@ -14,6 +14,8 @@ ZSH_THEME="robbyrussell"
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+#
+ZSH_DISABLE_COMPFIX=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -118,7 +120,6 @@ bindkey "^[e" end-of-line
 eval $(thefuck --alias) 
 
 export PATH="/usr/local/sbin:$PATH"
-export GOROOT=~/Projects/go
 
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
@@ -145,3 +146,4 @@ extract () {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(antibody init)
