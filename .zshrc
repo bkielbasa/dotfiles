@@ -100,7 +100,7 @@ export PATH=$HOME/gems/bin:$PATH
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # git
-alias push='git push'
+alias push='[[ -z $(git config "branch.$(git symbolic-ref --short HEAD).merge") ]] && git push -u origin $(git symbolic-ref --short HEAD) || git push'
 alias pull='git pull'
 alias fpush='git push -f'
 alias fpull='git pull -f'
@@ -147,3 +147,4 @@ extract () {
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source <(antibody init)
+if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
