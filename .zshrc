@@ -119,7 +119,9 @@ bindkey "^[e" end-of-line
 
 eval $(thefuck --alias) 
 
+export GOPATH=~/go
 export PATH="/usr/local/sbin:$PATH"
+export PATH=$PATH/bin:$GOPATH
 
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
