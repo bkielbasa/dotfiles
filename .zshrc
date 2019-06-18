@@ -122,6 +122,7 @@ eval $(thefuck --alias)
 export GOPATH=~/go
 export PATH="/usr/local/sbin:$PATH"
 export PATH=$PATH/bin:$GOPATH
+export PATH=$GOPATH/bin:$PATH
 
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins.txt
