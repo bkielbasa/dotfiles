@@ -4,7 +4,6 @@ syntax on
 set directory=~/.vim/tmp/ "move swap files out of current dir
 set clipboard=unnamedplus "System clipboard integration
 set cursorline "underline current line
-set noequalalways "splitting a window won't reduce the size of the current window
 
 " Use ctrl-space to autocomplete
 inoremap <C-Space> <C-x><C-o>
@@ -33,16 +32,19 @@ Plug 'junegunn/fzf.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
+Plug 'SirVer/ultisnips'
+
+Plug 'honza/vim-snippets'
 call plug#end()
 
-" youcompleteme
-let g:ycm_always_populate_location_list = 1
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_echo_current_diagnostic = 1
-let g:ycm_warning_symbol = '>'
-let g:ycm_show_diagnostics_ui = 1
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/ultisnips']
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 augroup golang
 let g:go_fmt_command = "goimports"
@@ -55,6 +57,10 @@ autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 augroup END
+
+" add yaml stuffs
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 command! -nargs=1 Rename try | saveas <args> | call delete(expand('#')) | bd # | endtry
 
