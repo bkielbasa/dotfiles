@@ -12,6 +12,25 @@ source $ZSH/oh-my-zsh.sh
 
 # }}}
 
+# fzf {{{
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# }}}
+
+# kubernetes {{{
+if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+# }}}
+
+# thefuck {{{
+eval $(thefuck --alias)
+# }}}
+
+# vim aliases
+bindkey "[D" backward-word
+bindkey "[C" forward-word
+bindkey "^[a" beginning-of-line
+bindkey "^[e" end-of-line
+# }}}
+
 # Exports {{{
 export GITHUB_USER="your-username"
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
