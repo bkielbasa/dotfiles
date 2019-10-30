@@ -1,3 +1,17 @@
+# oh-my-zsh {{{
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/bkielbasa/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+# }}}
+
 # Exports {{{
 export GITHUB_USER="your-username"
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
@@ -9,12 +23,6 @@ export TERM="screen-256color"
 export CLICOLOR=1
 export LSCOLORS=Gxfxcxdxbxegedabagacad
 export LS_COLORS=Gxfxcxdxbxegedabagacad
-# }}}
-
-# Ruby {{{
-function get_ruby_version() {
-  ruby -v | awk '{print $1 " " $2}'
-}
 # }}}
 
 # Tmux {{{
@@ -132,6 +140,7 @@ unset LSCOLORS
 # ===== Basics
 setopt no_beep # don't beep on error
 setopt interactive_comments # Allow comments even in interactive shells (especially for Muness)
+export LC_ALL=en_US.UTF-8 # fix issue with incorrect locale
 
 # ===== Changing Directories
 setopt auto_cd # If you type foo, and it isn't a command, and it is a directory in your cdpath, go there
