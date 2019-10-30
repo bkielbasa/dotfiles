@@ -1,4 +1,3 @@
-ProVim
+My dotfiles
 ======
 
-Repository to hold dotfiles and scripts specific to ProVim
