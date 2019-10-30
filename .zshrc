@@ -34,6 +34,7 @@ bindkey "^[e" end-of-line
 # Exports {{{
 export GITHUB_USER="your-username"
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin # Reorder PATH so local bin is first
+export PATH=~/go/bin:$PATH # set correct path for Go binaries
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
