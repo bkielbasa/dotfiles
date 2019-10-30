@@ -24,7 +24,7 @@ if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 eval $(thefuck --alias)
 # }}}
 
-# vim aliases
+# vim aliases {{{
 bindkey "[D" backward-word
 bindkey "[C" forward-word
 bindkey "^[a" beginning-of-line
