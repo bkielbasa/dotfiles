@@ -110,6 +110,8 @@ set showmatch
 " Set built-in file system explorer to use layout similar to the NERDTree plugin
 let g:netrw_liststyle=3
 
+" }}}
+
 " Plugins {{{
 execute pathogen#infect()
 filetype plugin indent on " required by Pathogen Plugin Manager
@@ -181,10 +183,12 @@ sunmap b
 sunmap e
 
 " vim-go
-
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+" FZF
+nnoremap <silent> <S-f> :FZF<cr>
 " }}}
 
 " Mappings {{{
