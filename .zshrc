@@ -40,8 +40,7 @@ export MANPAGER="less -X" # Don’t clear the screen after quitting a manual pag
 export EDITOR="vim"
 export TERM="screen-256color"
 export CLICOLOR=1
-export LSCOLORS=Gxfxcxdxbxegedabagacad
-export LS_COLORS=Gxfxcxdxbxegedabagacad
+export LS_COLORS='di=1;34:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=1;36:*.rpm=90:*.tar=1;31'
 # }}}
 
 # Tmux {{{
