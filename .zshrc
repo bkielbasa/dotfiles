@@ -1,6 +1,6 @@
 # oh-my-zsh {{{
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/bkielbasa/.oh-my-zsh"
+export ZSH="~/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -9,7 +9,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
-
+DISABLE_AUTO_TITLE="true"
 # }}}
 
 # fzf {{{
