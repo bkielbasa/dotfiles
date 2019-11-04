@@ -55,8 +55,14 @@ set tabstop=4
 " The number of spaces inserted for a tab (used for auto indenting)
 set shiftwidth=4
 
-" Turn on line numbers
-set number
+" turn hybrid line numbers on
+set number relativenumber
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 " Highlight tailing whitespace
 " See issue: https://github.com/Integralist/ProVim/issues/4
@@ -115,6 +121,14 @@ let g:netrw_liststyle=3
 " Plugins {{{
 execute pathogen#infect()
 filetype plugin indent on " required by Pathogen Plugin Manager
+
+" ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 " Theme
 set background=light
@@ -186,6 +200,7 @@ sunmap e
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+let g:go_fmt_command = "goimports"
 
 " FZF
 nnoremap <silent> <S-f> :FZF<cr>
