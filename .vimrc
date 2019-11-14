@@ -205,6 +205,7 @@ autocmd FileType go nmap <C-b>  :GoDecls<cr>
 autocmd FileType go nmap <C-h>  :GoDeclsDir<cr>
 let g:go_fmt_command = "goimports"
 let g:go_test_show_name = 1
+let g:go_auto_type_info = 1
 
 augroup go
 autocmd!
