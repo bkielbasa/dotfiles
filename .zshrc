@@ -1,6 +1,6 @@
 # oh-my-zsh {{{
 # Path to your oh-my-zsh installation.
-export ZSH="~/.oh-my-zsh"
+export ZSH="/Users/bkielbasa/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -279,15 +279,13 @@ function current_pwd {
 }
 
 # Original prompt with User name and Computer name included...
-# PROMPT='
-# ${PR_GREEN}%n%{$reset_color%} %{$FG[239]%}at%{$reset_color%} ${PR_BOLD_BLUE}$(box_name)%{$reset_color%} %{$FG[239]%}in%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
-# $(prompt_char) '
-
 PROMPT='
-${PR_GREEN}M.%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
+${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
 $(prompt_char) '
 
-export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
+# PROMPT='
+# ${PR_GREEN}M.%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
+# $(prompt_char) '
 
 RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%}'
 # }}}

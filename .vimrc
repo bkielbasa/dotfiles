@@ -200,7 +200,19 @@ sunmap e
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <C-a>  :GoAlternate<cr>
+autocmd FileType go nmap <C-b>  :GoDecls<cr>
+autocmd FileType go nmap <C-h>  :GoDeclsDir<cr>
 let g:go_fmt_command = "goimports"
+let g:go_test_show_name = 1
+
+augroup go
+autocmd!
+autocmd Filetype go
+  \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+augroup END
 
 " FZF
 nnoremap <silent> <S-f> :FZF<cr>
