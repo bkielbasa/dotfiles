@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'jst') == -1
+
 if exists("b:current_syntax")
   finish
 endif
@@ -23,6 +25,10 @@ elseif !exists("b:jst_subtype") && main_syntax == 'jst'
   elseif b:jst_subtype == 'hamljs'
     let b:jst_subtype = 'haml'
   elseif b:jst_subtype == 'ejs'
+    let b:jst_subtype = 'html'
+  elseif b:jst_subtype == 'ect'
+    let b:jst_subtype = 'html'
+  elseif b:jst_subtype == 'djs'
     let b:jst_subtype = 'html'
   elseif b:jst_subtype == 'rb'
     let b:jst_subtype = 'ruby'
@@ -70,4 +76,16 @@ if main_syntax == 'jst'
   unlet main_syntax
 endif
 
+set commentstring=<!--%s-->
+
+if exists("loaded_matchit")
+  let b:match_ignorecase = 1
+  let b:match_words = '<:>,' .
+  \ '<\@<=[ou]l\>[^>]*\%(>\|$\):<\@<=li\>:<\@<=/[ou]l>,' .
+  \ '<\@<=dl\>[^>]*\%(>\|$\):<\@<=d[td]\>:<\@<=/dl>,' .
+  \ '<\@<=\([^/][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\1>'
+endif
+
 " vim: nowrap sw=2 sts=2 ts=8:
+
+endif

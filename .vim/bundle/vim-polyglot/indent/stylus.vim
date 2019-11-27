@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'stylus') == -1
+
 " Vim indent file
 " Language: Stylus
 " Maintainer: Marc Harter
@@ -117,7 +119,7 @@ function! GetStylusIndent()
 
   " if group !~? 'css.*' && line =~? ')\s*$' " match user functions
   "   return increase
-  if group =~? '\v^%(cssTagName|cssClassName|cssIdentifier|cssSelectorOp|cssSelectorOp2|cssBraces|cssAttributeSelector|cssPseudoClass|cssPseudoClassId|stylusId|stylusClass)$'
+  if group =~? '\v^%(cssTagName|cssClassName|cssIdentifier|cssSelectorOp|cssSelectorOp2|cssBraces|cssAttributeSelector|cssPseudo|stylusId|stylusClass)$'
     return increase
   elseif (group == 'stylusUserFunction') && (indent(lnum) == '0') " mixin definition
     return increase
@@ -127,3 +129,5 @@ function! GetStylusIndent()
 endfunction
 
 " vim:set sw=2;
+
+endif

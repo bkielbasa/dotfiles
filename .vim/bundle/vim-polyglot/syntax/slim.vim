@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'slim') == -1
+
 " Vim syntax file
 " Language: Slim
 " Maintainer: Andrew Stone <andy@stonean.com>
@@ -48,9 +50,10 @@ syn region slimWrappedAttrs matchgroup=slimWrappedAttrsDelimiter start="\s*{\s*"
 syn region slimWrappedAttrs matchgroup=slimWrappedAttrsDelimiter start="\s*\[\s*" end="\s*\]\s*" contained contains=slimAttr nextgroup=slimRuby
 syn region slimWrappedAttrs matchgroup=slimWrappedAttrsDelimiter start="\s*(\s*"  end="\s*)\s*"  contained contains=slimAttr nextgroup=slimRuby
 
-syn match slimAttr "\s*\%(\w\|-\)\+\s*" contained contains=htmlArg nextgroup=slimAttrAssignment
+syn match slimAttr /\s*\%(\w\|-\)\+\s*=/me=e-1 contained contains=htmlArg nextgroup=slimAttrAssignment
 syn match slimAttrAssignment "\s*=\s*" contained nextgroup=slimWrappedAttrValue,slimAttrString
 
+syn region slimWrappedAttrValue start="[^"']" end="\s\|$" contained contains=slimAttrString,@slimRubyTop nextgroup=slimAttr,slimRuby,slimInlineTagChar
 syn region slimWrappedAttrValue matchgroup=slimWrappedAttrValueDelimiter start="{" end="}" contained contains=slimAttrString,@slimRubyTop nextgroup=slimAttr,slimRuby,slimInlineTagChar
 syn region slimWrappedAttrValue matchgroup=slimWrappedAttrValueDelimiter start="\[" end="\]" contained contains=slimAttrString,@slimRubyTop nextgroup=slimAttr,slimRuby,slimInlineTagChar
 syn region slimWrappedAttrValue matchgroup=slimWrappedAttrValueDelimiter start="(" end=")" contained contains=slimAttrString,@slimRubyTop nextgroup=slimAttr,slimRuby,slimInlineTagChar
@@ -65,11 +68,17 @@ syn region slimInterpolation matchgroup=slimInterpolationDelimiter start="#{" en
 syn region slimInterpolation matchgroup=slimInterpolationDelimiter start="#{{" end="}}" contains=@hamlRubyTop containedin=javascriptStringS,javascriptStringD,slimWrappedAttrs
 syn match  slimInterpolationEscape "\\\@<!\%(\\\\\)*\\\%(\\\ze#{\|#\ze{\)"
 
-syn region slimRuby matchgroup=slimRubyOutputChar start="\s*[=]\==[']\=" skip=",\s*$" end="$" contained contains=@slimRubyTop keepend
-syn region slimRuby matchgroup=slimRubyChar       start="\s*-"           skip=",\s*$" end="$" contained contains=@slimRubyTop keepend
+syn region slimPlainFilter      matchgroup=slimFilter start="^\z(\s*\)\%(rdoc\|textile\|markdown\|wiki\):\s*$" end="^\%(\z1 \| *$\)\@!"
+syn region slimJavascriptFilter matchgroup=slimFilter start="^\z(\s*\)javascript:\s*$" end="^\%(\z1 \| *$\)\@!" contains=@htmlJavaScript,slimInterpolation keepend
+syn region slimCoffeeFilter matchgroup=slimFilter start="^\z(\s*\)coffee:\s*$" end="^\%(\z1 \| *$\)\@!" contains=@coffeeAll,slimInterpolation keepend
+syn region slimCSSFilter matchgroup=slimFilter start="^\z(\s*\)css:\s*$" end="^\%(\z1 \| *$\)\@!" contains=@htmlCss,slimInterpolation keepend
+syn region slimSassFilter matchgroup=slimFilter start="^\z(\s*\)sass:\s*$" end="^\%(\z1 \| *$\)\@!" contains=@hamlSassTop
+
+syn region slimRuby matchgroup=slimRubyOutputChar start="\s*[=]\==[']\=" skip="\%\(,\s*\|\\\)$" end="$" contained contains=@slimRubyTop keepend
+syn region slimRuby matchgroup=slimRubyChar       start="\s*-"           skip="\%\(,\s*\|\\\)$" end="$" contained contains=@slimRubyTop keepend
 
 syn match slimComment /^\(\s*\)[/].*\(\n\1\s.*\)*/ contains=slimTodo
-syn match slimText    /^\(\s*\)[`|'].*\(\n\1\s.*\)*/
+syn match slimText    /^\(\s*\)[`|'].*\(\n\1\s.*\)*/ contains=slimInterpolation
 
 syn match slimFilter /\s*\w\+:\s*/                            contained
 syn match slimHaml   /^\(\s*\)\<haml:\>.*\(\n\1\s.*\)*/       contains=@slimHaml,slimFilter
@@ -97,5 +106,8 @@ hi def link slimTodo                      Todo
 hi def link slimWrappedAttrValueDelimiter Delimiter
 hi def link slimWrappedAttrsDelimiter     Delimiter
 hi def link slimInlineTagChar             Delimiter
+hi def link slimFilter                    PreProc
 
 let b:current_syntax = "slim"
+
+endif

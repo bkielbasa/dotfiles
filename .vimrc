@@ -216,7 +216,7 @@ autocmd Filetype go
 augroup END
 
 " FZF
-nnoremap <silent> <S-f> :FZF<cr>
+nnoremap <silent> <C-f> :FZF<cr>
 " }}}
 
 " Mappings {{{

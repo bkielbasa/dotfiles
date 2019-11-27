@@ -13,7 +13,8 @@ CONTENTS                                                   *wildfire-contents*
 
         1. Intro ................................. |wildfire-intro|
         2. Usage ................................. |wildfire-usage|
-        3. Advanced setup ........................ |wildfire-advanced-setup|
+        3. Advanced Usage ........................ |wildfire-advanced-usage|
+        4. Quick Selection ....................... |wildfire-quick-selection|
         4. About ................................. |wildfire-about|
         5. License ............................... |wildfire-license|
 
@@ -39,30 +40,14 @@ press a number followed by `<ENTER>` (e.g. pressing `2<ENTER>` will select the
 second closest text
 object).
 
-To change default mappings use the following options:
-
+You can change default mappings with:
 >
     " This selects the next closest text object.
-    let g:wildfire_fuel_map = "<ENTER>"
-<
->
+    map <SPACE> <Plug>(wildfire-fuel)
+
     " This selects the previous closest text object.
-    let g:wildfire_water_map = "<BS>"
+    vmap <C-SPACE> <Plug>(wildfire-water)
 <
-
-You can map keys to '<Plug>' mappings:
->
-   map <ENTER> <Plug>(wildfire-fuel)
-   map <BS> <Plug>(wildfire-water)
-<
-
-This is useful when you want to hack key mappings. For example, call fuel/water
-via another plugins. You can point the interface of fuel/water like below:
->
-   map <ENTER> <Plug>(wildfire-fuel)U
-<
-This key mapping make upper-case string on the cursor.
-
 By default, Wildfire selects any of the text objects `i'`, `i"`, `i)`, `i]`,
 `i}`, `ip` and `it`. You can decide the ones to consider with the following
 option:
@@ -71,7 +56,7 @@ option:
 <
 
 ==============================================================================
-3. Advanced setup                                    *wildfire-advanced-setup*
+3. Advanced Usage                                    *wildfire-advanced-usage*
 
 Sometimes considering certain kinds of text objects can be quite annoying. This
 is the case of Html, where, for example, you may want to select just tag objects.
@@ -80,13 +65,50 @@ Wildfire allows you to be selective about which text objects are considered with
 different filetypes:
 >
     let g:wildfire_objects = {
-        \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],  " use '*' to mean 'all other filetypes'
+        \ "*" : ["i'", 'i"', "i)", "i]", "i}"],  " use '*' to mean 'all other filetypes'
         \ "html,xml" : ["at"],  " html and xml share the same text objects
         \}
 <
+However, one problem with the solution above is that with `html` and `xml`
+files we loose the ability to select the text objects `i'`, `i"`, `i)`, `i]`
+and `i}`.  To solve this problem, Wildfire allows you to use different mappings
+for different text object candidates:
+>
+    map <SPACE> <Plug>(wildfire-fuel)
+    let g:wildfire_objects = {
+	\ "*" : ["i'", 'i"', "i)", "i]", "i}"]
+    \ }
+
+    cal wildfire#triggers#Add("<ENTER>", {
+	\ "html,xml" : ["at", "it"],
+    \ })
+<
 
 ==============================================================================
-4. About                                                      *wildfire-about*
+4. Quick Selection                                  *wildfire-quick-selection*
+
+This feature allows you to quickly select text object by setting special marks
+(not vim marks) in the current buffer that represent growing selections
+(similarly to vim-easymotion).
+
+Wildfire does not set a default mapping for *quick selection*. Be sure to put
+something like the following line in your `.vimrc`:
+>
+    nmap <leader>s <Plug>(wildfire-quick-select)
+<
+
+By default, *quick selection* use text objects in `g:wildfire_objects` to set
+"selection marks". Have a look at the example below if you want to use different
+text object without having to change `g:wildfire_objects`.
+>
+    cal wildfire#triggers#AddQs("<leader>s", {
+	\ "*" : ["i)", "i]"],
+    \ })
+<
+
+
+==============================================================================
+5. About                                                      *wildfire-about*
 
 Author: Giacomo Comitti
 Contributors: https://github.com/gcmt/wildfire.vim/contributors
@@ -94,7 +116,7 @@ Git repository: https://github.com/gcmt/wildfire.vim
 
 
 ==============================================================================
-5. License                                                  *wildfire-license*
+6. License                                                  *wildfire-license*
 
 Copyright (c) 2014 Giacomo Comitti
 

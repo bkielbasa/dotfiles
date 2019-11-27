@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cucumber') == -1
+
 " Vim compiler file
 " Compiler:	Cucumber
 " Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
@@ -19,7 +21,7 @@ CompilerSet makeprg=cucumber
 
 CompilerSet errorformat=
       \%W%m\ (Cucumber::Undefined),
-      \%E%m\ (%.%#),
+      \%E%m\ (%\\S%#),
       \%Z%f:%l,
       \%Z%f:%l:%.%#
 
@@ -27,3 +29,5 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set sw=2 sts=2:
+
+endif

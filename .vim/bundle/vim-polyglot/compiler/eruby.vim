@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ruby') == -1
+
 " Vim compiler file
 " Language:		eRuby
 " Maintainer:		Doug Kearns <dougkearns@gmail.com>
@@ -28,8 +30,8 @@ CompilerSet errorformat=
     \%W%f:%l:\ warning:\ %m,
     \%E%f:%l:in\ %*[^:]:\ %m,
     \%E%f:%l:\ %m,
-    \%-C%\tfrom\ %f:%l:in\ %.%#,
-    \%-Z%\tfrom\ %f:%l,
+    \%-C%\t%\\d%#:%#\ %#from\ %f:%l:in\ %.%#,
+    \%-Z%\t%\\d%#:%#\ %#from\ %f:%l,
     \%-Z%p^,
     \%-G%.%#
 
@@ -37,3 +39,5 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim: nowrap sw=2 sts=2 ts=8:
+
+endif

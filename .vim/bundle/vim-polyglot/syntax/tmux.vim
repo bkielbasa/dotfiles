@@ -1,104 +1,120 @@
-" Vim syntax file
-" Language: tmux(1) configuration file
-" Maintainer: Tiago Cunha <me@tiagocunha.org>
-" Last Change: $Date: 2010-07-27 18:29:07 $
-" License: This file is placed in the public domain.
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'tmux') == -1
 
-if version < 600
-	syntax clear
-elseif exists("b:current_syntax")
-	finish
+" Language: tmux(1) configuration file
+" Version: 3.0 (git-48cbbb87)
+" URL: https://github.com/ericpruitt/tmux.vim/
+" Maintainer: Eric Pruitt <eric.pruitt@gmail.com>
+" License: 2-Clause BSD (http://opensource.org/licenses/BSD-2-Clause)
+
+if exists("b:current_syntax")
+    finish
 endif
 
-setlocal iskeyword+=-
+" Explicitly change compatiblity options to Vim's defaults because this file
+" uses line continuations.
+let s:original_cpo = &cpo
+set cpo&vim
+
+let b:current_syntax = "tmux"
+syntax iskeyword @,48-57,_,192-255,-
 syntax case match
 
-syn keyword tmuxAction	any current none
-syn keyword tmuxBoolean	off on
-
-syn keyword tmuxCmds detach[-client] ls list-sessions neww new-window
-syn keyword tmuxCmds bind[-key] unbind[-key] prev[ious-window] last[-window]
-syn keyword tmuxCmds lsk list-keys set[-option] renamew rename-window selectw
-syn keyword tmuxCmds select-window lsw list-windows attach[-session]
-syn keyword tmuxCmds send-prefix refresh[-client] killw kill-window lsc
-syn keyword tmuxCmds list-clients linkw link-window unlinkw unlink-window
-syn keyword tmuxCmds next[-window] send[-keys] swapw swap-window
-syn keyword tmuxCmds rename[-session] kill-session switchc switch-client
-syn keyword tmuxCmds has[-session] copy-mode pasteb paste-buffer
-syn keyword tmuxCmds new[-session] start[-server] kill-server setw
-syn keyword tmuxCmds set-window-option show[-options] showw show-window-options
-syn keyword tmuxCmds command-prompt setb set-buffer showb show-buffer lsb
-syn keyword tmuxCmds list-buffers deleteb delete-buffer lscm list-commands
-syn keyword tmuxCmds movew move-window respawnw respawn-window
-syn keyword tmuxCmds source[-file] info server-info clock-mode lock[-server]
-syn keyword tmuxCmds saveb save-buffer killp
-syn keyword tmuxCmds kill-pane resizep resize-pane selectp select-pane swapp
-syn keyword tmuxCmds swap-pane splitw split-window choose-session
-syn keyword tmuxCmds choose-window loadb load-buffer copyb copy-buffer suspendc
-syn keyword tmuxCmds suspend-client findw find-window breakp break-pane nextl
-syn keyword tmuxCmds next-layout rotatew rotate-window confirm[-before]
-syn keyword tmuxCmds clearhist clear-history selectl select-layout if[-shell]
-syn keyword tmuxCmds display[-message] setenv set-environment showenv
-syn keyword tmuxCmds show-environment choose-client displayp display-panes
-syn keyword tmuxCmds run[-shell] lockc lock-client locks lock-session lsp
-syn keyword tmuxCmds list-panes pipep pipe-pane showmsgs show-messages capturep
-syn keyword tmuxCmds capture-pane joinp join-pane choose-buffer
-
-syn keyword tmuxOptsSet prefix status status-fg status-bg bell-action
-syn keyword tmuxOptsSet default-command history-limit status-left status-right
-syn keyword tmuxOptsSet status-interval set-titles display-time buffer-limit
-syn keyword tmuxOptsSet status-left-length status-right-length
-syn keyword tmuxOptsSet message-[command-]bg lock-after-time default-path
-syn keyword tmuxOptsSet message-[command-]attr status-attr set-remain-on-exit
-syn keyword tmuxOptsSet status-utf8 default-terminal visual-activity repeat-time
-syn keyword tmuxOptsSet visual-bell visual-content status-justify status-keys
-syn keyword tmuxOptsSet terminal-overrides status-left-attr status-left-bg
-syn keyword tmuxOptsSet status-left-fg status-right-attr status-right-bg
-syn keyword tmuxOptsSet status-right-fg update-environment base-index
-syn keyword tmuxOptsSet display-panes-colour display-panes-time default-shell
-syn keyword tmuxOptsSet set-titles-string lock-command lock-server
-syn keyword tmuxOptsSet mouse-select-pane message-limit quiet escape-time
-syn keyword tmuxOptsSet pane-active-border-bg pane-active-border-fg
-syn keyword tmuxOptsSet pane-border-bg pane-border-fg message-[command-]fg
-syn keyword tmuxOptsSet display-panes-active-colour alternate-screen
-syn keyword tmuxOptsSet detach-on-destroy
-
-syn keyword tmuxOptsSetw monitor-activity aggressive-resize force-width
-syn keyword tmuxOptsSetw force-height remain-on-exit uft8 mode-fg mode-bg
-syn keyword tmuxOptsSetw mode-keys clock-mode-colour clock-mode-style
-syn keyword tmuxOptsSetw xterm-keys mode-attr window-status-attr
-syn keyword tmuxOptsSetw window-status-bg window-status-fg automatic-rename
-syn keyword tmuxOptsSetw main-pane-width main-pane-height monitor-content
-syn keyword tmuxOptsSetw window-status-current-attr window-status-current-bg
-syn keyword tmuxOptsSetw window-status-current-fg mode-mouse synchronize-panes
-syn keyword tmuxOptsSetw window-status-format window-status-current-format
-syn keyword tmuxOptsSetw word-separators window-status-alert-attr
-syn keyword tmuxOptsSetw window-status-alert-bg window-status-alert-fg
+syn keyword tmuxAction  none any current other
+syn keyword tmuxBoolean off on
 
 syn keyword tmuxTodo FIXME NOTE TODO XXX contained
 
-syn match tmuxKey		/\(C-\|M-\|\^\)\+\S\+/	display
-syn match tmuxNumber 		/\d\+/			display
-syn match tmuxOptions		/\s-\a\+/		display
-syn match tmuxVariable		/\w\+=/			display
-syn match tmuxVariableExpansion	/\${\=\w\+}\=/		display
+syn match tmuxColour            /\<colour[0-9]\+/      display
+syn match tmuxKey               /\(C-\|M-\|\^\)\+\S\+/ display
+syn match tmuxNumber            /\<\d\+\>/             display
+syn match tmuxFlags             /\s-\a\+/              display
+syn match tmuxVariable          /\w\+=/                display
+syn match tmuxVariableExpansion /\${\=\w\+}\=/         display
+syn match tmuxControl           /%\(if\|elif\|else\|endif\)/
 
-syn region tmuxComment	start=/#/ end=/$/ contains=tmuxTodo display oneline
-syn region tmuxString	start=/"/ end=/"/ display oneline
-syn region tmuxString	start=/'/ end=/'/ display oneline
+syn region tmuxComment start=/#/ skip=/\\\@<!\\$/ end=/$/ contains=tmuxTodo
 
-hi def link tmuxAction			Boolean
-hi def link tmuxBoolean			Boolean
-hi def link tmuxCmds			Keyword
-hi def link tmuxComment			Comment
-hi def link tmuxKey			Special
-hi def link tmuxNumber			Number
-hi def link tmuxOptions			Identifier
-hi def link tmuxOptsSet			Function
-hi def link tmuxOptsSetw		Function
-hi def link tmuxString			String
-hi def link tmuxTodo			Todo
-hi def link tmuxVariable		Constant
-hi def link tmuxVariableExpansion	Constant
+syn region tmuxString start=+"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=tmuxFormatString
+syn region tmuxString start=+'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end='$' contains=tmuxFormatString
 
-let b:current_syntax = "tmux"
+" TODO: Figure out how escaping works inside of #(...) and #{...} blocks.
+syn region tmuxFormatString start=/#[#DFhHIPSTW]/ end=// contained keepend
+syn region tmuxFormatString start=/#{/ skip=/#{.\{-}}/ end=/}/ contained keepend
+syn region tmuxFormatString start=/#(/ skip=/#(.\{-})/ end=/)/ contained keepend
+
+hi def link tmuxFormatString      Identifier
+hi def link tmuxAction            Boolean
+hi def link tmuxBoolean           Boolean
+hi def link tmuxCommands          Keyword
+hi def link tmuxControl           Keyword
+hi def link tmuxComment           Comment
+hi def link tmuxKey               Special
+hi def link tmuxNumber            Number
+hi def link tmuxFlags             Identifier
+hi def link tmuxOptions           Function
+hi def link tmuxString            String
+hi def link tmuxTodo              Todo
+hi def link tmuxVariable          Identifier
+hi def link tmuxVariableExpansion Identifier
+
+" Make the foreground of colourXXX keywords match the color they represent.
+" Darker colors have their background set to white.
+for s:i in range(0, 255)
+    let s:bg = (!s:i || s:i == 16 || (s:i > 231 && s:i < 235)) ? 15 : "none"
+    exec "syn match tmuxColour" . s:i . " /\\<colour" . s:i . "\\>/ display"
+\     " | highlight tmuxColour" . s:i . " ctermfg=" . s:i . " ctermbg=" . s:bg
+endfor
+
+syn keyword tmuxOptions
+\ backspace buffer-limit command-alias default-terminal escape-time
+\ exit-empty activity-action assume-paste-time base-index bell-action
+\ default-command default-shell default-size destroy-unattached
+\ detach-on-destroy display-panes-active-colour display-panes-colour
+\ display-panes-time display-time exit-unattached focus-events history-file
+\ history-limit key-table lock-after-time lock-command message-command-style
+\ message-limit message-style aggressive-resize allow-rename
+\ alternate-screen automatic-rename automatic-rename-format
+\ clock-mode-colour clock-mode-style main-pane-height main-pane-width
+\ mode-keys mode-style monitor-activity monitor-bell monitor-silence mouse
+\ other-pane-height other-pane-width pane-active-border-style
+\ pane-base-index pane-border-format pane-border-status pane-border-style
+\ prefix prefix2 remain-on-exit renumber-windows repeat-time set-clipboard
+\ set-titles set-titles-string silence-action status status-bg status-fg
+\ status-format status-interval status-justify status-keys status-left
+\ status-left-length status-left-style status-position status-right
+\ status-right-length status-right-style status-style synchronize-panes
+\ terminal-overrides update-environment user-keys visual-activity
+\ visual-bell visual-silence window-active-style window-size
+\ window-status-activity-style window-status-bell-style
+\ window-status-current-format window-status-current-style
+\ window-status-format window-status-last-style window-status-separator
+\ window-status-style window-style word-separators wrap-search xterm-keys
+
+syn keyword tmuxCommands
+\ attach attach-session bind bind-key break-pane breakp capture-pane
+\ capturep choose-buffer choose-client choose-tree clear-history clearhist
+\ clock-mode command-prompt confirm confirm-before copy-mode detach
+\ detach-client display display-menu display-message display-panes displayp
+\ find-window findw if if-shell join-pane joinp kill-pane kill-server
+\ kill-session kill-window killp has-session has killw link-window linkw
+\ list-buffers list-clients list-commands list-keys list-panes list-sessions
+\ list-windows load-buffer loadb lock lock-client lock-server lock-session
+\ lockc last-pane lastp locks ls last-window last lsb lsc delete-buffer
+\ deleteb lscm lsk lsp lsw menu move-pane move-window movep movew new
+\ new-session new-window neww next next-layout next-window nextl
+\ paste-buffer pasteb pipe-pane pipep prev previous-layout previous-window
+\ prevl refresh refresh-client rename rename-session rename-window renamew
+\ resize-pane resize-window resizep resizew respawn-pane respawn-window
+\ respawnp respawnw rotate-window rotatew run run-shell save-buffer saveb
+\ select-layout select-pane select-window selectl selectp selectw send
+\ send-keys send-prefix set set-buffer set-environment set-hook set-option
+\ set-window-option setb setenv setw show show-buffer show-environment
+\ show-hooks show-messages show-options show-window-options showb showenv
+\ showmsgs showw source source-file split-window splitw start start-server
+\ suspend-client suspendc swap-pane swap-window swapp swapw switch-client
+\ switchc unbind unbind-key unlink-window unlinkw wait wait-for
+
+let &cpo = s:original_cpo
+unlet! s:original_cpo s:bg s:i
+
+endif

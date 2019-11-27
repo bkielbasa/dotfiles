@@ -1,5 +1,7 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'coffee-script') == -1
+
 " Language:    CoffeeScript
-" Maintainer:  Mick Koch <kchmck@gmail.com>
+" Maintainer:  Mick Koch <mick@kochm.co>
 " URL:         http://github.com/kchmck/vim-coffee-script
 " License:     WTFPL
 
@@ -80,3 +82,5 @@ augroup CoffeeUpdateMakePrg
     autocmd BufWritePre,BufFilePost          call s:UpdateMakePrg()
   endif
 augroup END
+
+endif

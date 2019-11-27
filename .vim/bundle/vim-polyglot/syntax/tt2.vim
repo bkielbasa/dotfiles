@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+
 " Language:      TT2 (Perl Template Toolkit)
 " Maintainer:    vim-perl <vim-perl@googlegroups.com>
 " Author:        Moriki, Atsushi <4woods+vim@gmail.com>
@@ -5,8 +7,8 @@
 " Bugs/requests: http://github.com/vim-perl/vim-perl/issues
 " Last Change:   {{LAST_CHANGE}}
 "
-" Instration:
-"   put tt2.vim and tt2html.vim in to your syntax diretory.
+" Installation:
+"   put tt2.vim and tt2html.vim in to your syntax directory.
 "
 "   add below in your filetype.vim.
 "       au BufNewFile,BufRead *.tt2 setf tt2
@@ -208,3 +210,5 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:ts=4:sw=4
+
+endif

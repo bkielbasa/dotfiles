@@ -1,3 +1,5 @@
+if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ruby') == -1
+
 " Vim compiler file
 " Language:		Test::Unit - Ruby Unit Testing Framework
 " Maintainer:		Doug Kearns <dougkearns@gmail.com>
@@ -17,6 +19,8 @@ let s:cpo_save = &cpo
 set cpo-=C
 
 CompilerSet makeprg=testrb
+" CompilerSet makeprg=ruby\ -Itest
+" CompilerSet makeprg=m
 
 CompilerSet errorformat=\%W\ %\\+%\\d%\\+)\ Failure:,
 			\%C%m\ [%f:%l]:,
@@ -31,3 +35,5 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim: nowrap sw=2 sts=2 ts=8:
+
+endif
