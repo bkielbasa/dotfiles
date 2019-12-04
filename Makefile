@@ -2,13 +2,12 @@
 install: clean  delve thefuck
 	@echo "Installing directories"
 	@ln -s ${PWD}/.vimrc ~
-	@ln -s ${PWD}/.zshrc ~
 	@ln -s ${PWD}/.vim ~
+	@echo "source $(shell pwd)/shell.sh" >> ~/.zshrc
 
 clean:
 	@echo "cleaning files"
 	@[ -f ~/.vimrc ] && mv ~/.vimrc  ~/.vimrc.back || true
-	@[ -f ~/.zshrc ] && mv ~/.zshrc ~/.zshrc.back || true
 	@[ -d ~/.vim ] && mv ~/.vim ~/.vim.back || true
 
 delve:
