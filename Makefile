@@ -2,8 +2,9 @@
 install: clean  delve thefuck
 	@echo "Installing directories"
 	@ln -s ${PWD}/.vimrc ~
-	@ln -s ${PWD}/.vim ~
 	@echo "source $(shell pwd)/shell.sh" >> ~/.zshrc
+	@ln -s ${PWD}/.vim ~
+	@cd .vim && git submodule update
 
 clean:
 	@echo "cleaning files"
