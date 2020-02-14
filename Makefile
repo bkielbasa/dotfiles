@@ -1,10 +1,16 @@
 
-install: clean  delve thefuck
-	@echo "Installing directories"
-	@ln -s ${PWD}/.vimrc ~
+install: install-vim-plugins  delve thefuck
+	@echo "Installing .vimrc file"
+	@ln -s ${PWD}/.vimrc ~ 2> /dev/null || echo ".vimrc already exists"
 	@echo "source $(shell pwd)/shell.sh" >> ~/.zshrc
-	@ln -s ${PWD}/.vim ~
-	@cd .vim && git submodule update
+
+install-vim-plugins:
+	@echo "installing vim plugins..."
+	@git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go 2> /dev/null || echo "vim-go already installed"
+	@git clone git@github.com:junegunn/fzf.git ~/.vim/bundle/fzf 2> /dev/null || echo "fzf already installed"
+	@git clone git@github.com:junegunn/fzf.vim.git ~/.vim/bundle/fzf.vim 2> /dev/null || echo "fzf.vim already installed"
+	@git clone https://tpope.io/vim/surround.git ~/.vim/bundle/vim-surround 2> /dev/null || echo "vim-surround already installed"
+	@git clone git@github.com:sheerun/vim-polyglot.git ~/.vim/bundle/vim-polyglot 2> /dev/null || echo "vim-polyglot already installed"
 
 clean:
 	@echo "cleaning files"
