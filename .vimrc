@@ -82,4 +82,16 @@ autocmd Filetype go
   \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 augroup END
 
+
+" ultisnips
+
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split 
+let g:UltiSnipsEditSplit="vertical"
+
 " }}}
