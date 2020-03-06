@@ -83,6 +83,9 @@ autocmd Filetype go
 augroup END
 
 
+" vim-autoformat
+au BufWrite * :Autoformat
+
 " ultisnips
 
 " Trigger configuration. Do not use <tab> if you use

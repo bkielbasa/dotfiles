@@ -13,6 +13,9 @@ install-vim-plugins:
 	@git clone git@github.com:sheerun/vim-polyglot.git ~/.vim/bundle/vim-polyglot 2> /dev/null || echo " 👍 vim-polyglot already installed"
 	@git clone git@github.com:SirVer/ultisnips.git ~/.vim/bundle/ultisnips  2> /dev/null || echo " 👍 ultisnips already installed"
 	@git clone git@github.com:honza/vim-snippets.git ~/.vim/bundle/vim-snippets 2>/dev/null || echo " 👍 vim-snippets already installed"
+	@git clone git@github.com:tpope/vim-commentary.git ~/.vim/bundle/vim-commentary 2> /dev/null || echo " 👍 vim-commentary already installed"
+	@git clone https://github.com/ternjs/tern_for_vim.git ~/.vim/bundle/tern_for_vim 2> /dev/null && cd ~/.vim/bundle/tern_for_vim && npm install || echo " 👍 tern_for_vim already installed"
+	@git clone https://github.com/chiel92/vim-autoformat ~/.vim/bundle/vim-autoformat 2> /dev/null || echo " 👍 vim-autoformat  already installed"
 
 clean:
 	@echo "cleaning files"
