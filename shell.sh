@@ -32,17 +32,17 @@ export LS_COLORS='di=1;34:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=1;36:*.rp
 # Tmux {{{
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxopen() {
-  tmux attach -t $1
+    tmux attach -t $1
 }
 
 # Makes creating a new tmux session (with a specific name) easier
 function tmuxnew() {
-  tmux new -s $1
+    tmux new -s $1
 }
 
 # Makes deleting a tmux session easier
 function tmuxkill() {
-  tmux kill-session -t $1
+    tmux kill-session -t $1
 }
 # }}}
 
@@ -55,6 +55,7 @@ alias ct="ctags -R --exclude=.git --exclude=node_modules"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 alias push="git push"
 alias pull="git pull"
+
 # }}}
 
 # Auto Completion {{{
@@ -128,8 +129,8 @@ autoload colors; colors
 # The variables are wrapped in \%\{\%\}. This should be the case for every
 # variable that does not contain space.
 for COLOR in RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; do
-  eval PR_$COLOR='%{$fg_no_bold[${(L)COLOR}]%}'
-  eval PR_BOLD_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
+    eval PR_$COLOR='%{$fg_no_bold[${(L)COLOR}]%}'
+    eval PR_BOLD_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
 done
 
 eval RESET='$reset_color'
@@ -179,17 +180,17 @@ unsetopt menu_complete # do not autoselect the first completion entry
 
 # Prompt {{{
 function virtualenv_info {
-  [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
 
 function prompt_char {
-  git branch >/dev/null 2>/dev/null && echo '±' && return
-  hg root >/dev/null 2>/dev/null && echo '☿' && return
-  echo '→'
+    git branch >/dev/null 2>/dev/null && echo '±' && return
+    hg root >/dev/null 2>/dev/null && echo '☿' && return
+    echo '→'
 }
 
 function box_name {
-  [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
+    [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
 
 # http://blog.joshdick.net/2012/12/30/my_git_prompt_for_zsh.html
@@ -212,54 +213,54 @@ GIT_PROMPT_STAGED="%{$fg_bold[green]%}s%{$reset_color%}"
 
 # Show Git branch/tag, or name-rev if on detached head
 function parse_git_branch() {
-  (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
+    (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
 }
 
 # Show different symbols as appropriate for various Git repository states
 function parse_git_state() {
-  # Compose this value via multiple conditional appends.
-  local GIT_STATE=""
+    # Compose this value via multiple conditional appends.
+    local GIT_STATE=""
 
-  local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$NUM_AHEAD" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
-  fi
+    local NUM_AHEAD="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
+    if [ "$NUM_AHEAD" -gt 0 ]; then
+        GIT_STATE=$GIT_STATE${GIT_PROMPT_AHEAD//NUM/$NUM_AHEAD}
+    fi
 
-  local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$NUM_BEHIND" -gt 0 ]; then
-    GIT_STATE=$GIT_STATE${GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
-  fi
+    local NUM_BEHIND="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+    if [ "$NUM_BEHIND" -gt 0 ]; then
+        GIT_STATE=$GIT_STATE${GIT_PROMPT_BEHIND//NUM/$NUM_BEHIND}
+    fi
 
-  local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
-  if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
-  fi
+    local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
+    if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
+        GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
+    fi
 
-  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_UNTRACKED
-  fi
+    if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+        GIT_STATE=$GIT_STATE$GIT_PROMPT_UNTRACKED
+    fi
 
-  if ! git diff --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MODIFIED
-  fi
+    if ! git diff --quiet 2> /dev/null; then
+        GIT_STATE=$GIT_STATE$GIT_PROMPT_MODIFIED
+    fi
 
-  if ! git diff --cached --quiet 2> /dev/null; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_STAGED
-  fi
+    if ! git diff --cached --quiet 2> /dev/null; then
+        GIT_STATE=$GIT_STATE$GIT_PROMPT_STAGED
+    fi
 
-  if [[ -n $GIT_STATE ]]; then
-    echo "$GIT_PROMPT_PREFIX$GIT_STATE$GIT_PROMPT_SUFFIX"
-  fi
+    if [[ -n $GIT_STATE ]]; then
+        echo "$GIT_PROMPT_PREFIX$GIT_STATE$GIT_PROMPT_SUFFIX"
+    fi
 }
 
 # If inside a Git repository, print its branch and state
 function git_prompt_string() {
-  local git_where="$(parse_git_branch)"
-  [ -n "$git_where" ] && echo "on %{$fg[blue]%}${git_where#(refs/heads/|tags/)}$(parse_git_state)"
+    local git_where="$(parse_git_branch)"
+    [ -n "$git_where" ] && echo "on %{$fg[blue]%}${git_where#(refs/heads/|tags/)}$(parse_git_state)"
 }
 
 function current_pwd {
-  echo $(pwd | sed -e "s,^$HOME,~,")
+    echo $(pwd | sed -e "s,^$HOME,~,")
 }
 
 # Original prompt with User name and Computer name included...
@@ -282,23 +283,23 @@ HISTFILE=~/.zsh_history
 
 # Zsh Hooks {{{
 function precmd {
-  # vcs_info
-  # Put the string "hostname::/full/directory/path" in the title bar:
-  echo -ne "\e]2;$PWD\a"
+    # vcs_info
+    # Put the string "hostname::/full/directory/path" in the title bar:
+    echo -ne "\e]2;$PWD\a"
 
   # Put the parentdir/currentdir in the tab
   echo -ne "\e]1;$PWD:h:t/$PWD:t\a"
 }
 
 function set_running_app {
-  printf "\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"
+    printf "\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"
 }
 
 function preexec {
-  set_running_app
+    set_running_app
 }
 
 function postexec {
-  set_running_app
+    set_running_app
 }
 # }}}

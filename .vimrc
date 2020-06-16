@@ -28,9 +28,9 @@ set shiftwidth=4
 " Add relative line number
 set number relativenumber
 augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
 " Better splits (new windows appear below and to the right)
@@ -56,9 +56,34 @@ set showmatch
 
 " Plugins {{{
 
-execute pathogen#infect()
 filetype plugin indent on
 
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'fatih/vim-go'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-commentary'
+Plug 'ternjs/tern_for_vim'
+Plug 'preservim/nerdtree'
+Plug 'https://github.com/Valloric/YouCompleteMe'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'chiel92/vim-autoformat'
+
+call plug#end()
+
+" NERDTree
+" open when opening a dir
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+" YouCompleteMe
+nnoremap gd :YcmCompleter GoToDefinition<CR>
 " FZF
 nnoremap <silent> <C-f> :FZF<cr>
 
@@ -75,11 +100,11 @@ let g:go_test_show_name = 1
 let g:go_auto_type_info = 1
 
 augroup go
-autocmd!
-autocmd Filetype go
-  \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+    autocmd!
+    autocmd Filetype go
+                \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+                \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+                \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 augroup END
 
 
@@ -94,7 +119,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" If you want :UltiSnipsEdit to split 
+" If you want :UltiSnipsEdit to split
 let g:UltiSnipsEditSplit="vertical"
 
 " }}}
