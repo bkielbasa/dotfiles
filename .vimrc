@@ -1,6 +1,9 @@
 " Settings {{{
 syntax on
 
+" no auto indent pasted text
+set paste
+
 " Use vim, not vi api
 set nocompatible
 
@@ -74,6 +77,10 @@ Plug 'https://github.com/Valloric/YouCompleteMe'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'chiel92/vim-autoformat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -84,6 +91,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " YouCompleteMe
 nnoremap gd :YcmCompleter GoToDefinition<CR>
+
 " FZF
 nnoremap <silent> <C-f> :FZF<cr>
 
@@ -92,6 +100,11 @@ autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>f  :GoTestFunc<cr>
+autocmd FileType go nmap <F6> :GoDebugStepOut<cr>
+autocmd FileType go nmap <F7> :GoDebugStep<cr>
+autocmd FileType go nmap <F10> :GoDebugNext<cr>
+nmap <F9> :GoDebugBreakpoint<cr>
+
 autocmd FileType go nmap <C-a>  :GoAlternate<cr>
 autocmd FileType go nmap <C-b>  :GoDecls<cr>
 autocmd FileType go nmap <C-h>  :GoDeclsDir<cr>
@@ -109,17 +122,32 @@ augroup END
 
 
 " vim-autoformat
-au BufWrite * :Autoformat
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+autocmd FileType go let b:autoformat_autoindent=1
 
 " ultisnips
 
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
-" If you want :UltiSnipsEdit to split
-let g:UltiSnipsEditSplit="vertical"
+" " better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let $HOME = expand('~')
+let g:UltiSnipsSnippetsDir = $HOME."~/.vim/mysnippets"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/mysnippets']
+
+" fugitive
+"" from right side
+nmap <leader>gl :diffget //3<CR>
+"" from left side
+nmap <leader>gh :diffget //2<CR>
 
 " }}}
