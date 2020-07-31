@@ -2,7 +2,6 @@
 syntax on
 
 " no auto indent pasted text
-set paste
 
 " Use vim, not vi api
 set nocompatible
@@ -79,8 +78,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'chiel92/vim-autoformat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'idanarye/vim-merginal'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ervandew/supertab'
 
 call plug#end()
 
@@ -128,21 +129,25 @@ let g:autoformat_remove_trailing_spaces = 0
 autocmd FileType go let b:autoformat_autoindent=1
 
 " ultisnips
-
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
-" make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
-" " better key bindings for UltiSnipsExpandTrigger
+" better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let $HOME = expand('~')
+
 let g:UltiSnipsSnippetsDir = $HOME."~/.vim/mysnippets"
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/mysnippets']
+
+function! s:go_guru_scope_from_git_root()
+  let gitroot = system("git rev-parse --show-toplevel | tr -d '\n'")
+  let pattern = escape(go#util#gopath() . "/src/", '\ /')
+  return substitute(gitroot, pattern, "", "") . "/... -vendor/"
+endfunction
+
+au FileType go silent exe "GoGuruScope " . s:go_guru_scope_from_git_root()
 
 " fugitive
 "" from right side
