@@ -272,7 +272,8 @@ $(prompt_char) '
 # ${PR_GREEN}M.%{$reset_color%} ${PR_BOLD_YELLOW}$(current_pwd)%{$reset_color%} $(git_prompt_string)
 # $(prompt_char) '
 
-RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%}'
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+# RPROMPT='${PR_GREEN}$(virtualenv_info)%{$reset_color%}'
 # }}}
 
 # History {{{
