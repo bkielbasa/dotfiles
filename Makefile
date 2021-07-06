@@ -1,31 +1,20 @@
 
-install: install-vim-plugins  delve thefuck
-	@echo "👉 Installing .vimrc file"
-	@ln -s ${PWD}/.vimrc ~ 2> /dev/null || echo " 👍 .vimrc already exists"
-	@echo "source $(shell pwd)/shell.sh" >> ~/.zshrc
+install: delve thefuck neovim
 
-install-vim-plugins:
-	@echo "👉 installing vim plugins..."
-	@git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go 2> /dev/null || echo " 👍 vim-go already installed"
-	@git clone git@github.com:junegunn/fzf.git ~/.vim/bundle/fzf 2> /dev/null || echo " 👍 fzf already installed"
-	@git clone git@github.com:junegunn/fzf.vim.git ~/.vim/bundle/fzf.vim 2> /dev/null || echo " 👍 fzf.vim already installed"
-	@git clone https://tpope.io/vim/surround.git ~/.vim/bundle/vim-surround 2> /dev/null || echo " 👍 vim-surround already installed"
-	@git clone git@github.com:sheerun/vim-polyglot.git ~/.vim/bundle/vim-polyglot 2> /dev/null || echo " 👍 vim-polyglot already installed"
-	@git clone git@github.com:SirVer/ultisnips.git ~/.vim/bundle/ultisnips  2> /dev/null || echo " 👍 ultisnips already installed"
-	@git clone git@github.com:honza/vim-snippets.git ~/.vim/bundle/vim-snippets 2>/dev/null || echo " 👍 vim-snippets already installed"
-	@git clone git@github.com:tpope/vim-commentary.git ~/.vim/bundle/vim-commentary 2> /dev/null || echo " 👍 vim-commentary already installed"
-	@git clone https://github.com/ternjs/tern_for_vim.git ~/.vim/bundle/tern_for_vim 2> /dev/null && cd ~/.vim/bundle/tern_for_vim && npm install || echo " 👍 tern_for_vim already installed"
-	@git clone https://github.com/chiel92/vim-autoformat ~/.vim/bundle/vim-autoformat 2> /dev/null || echo " 👍 vim-autoformat  already installed"
+neovim:
+	@brew install cmake python mono go nodejs
+	@mkdir ~/.config/nvim || echo "neovim config dir exists"
+	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	@ln -s $(pwd)/nvim.init.vim ~/.config/nvim/init.vim
+	@nvim +PlugInstall
 
-clean:
-	@echo "cleaning files"
-	@[ -f ~/.vimrc ] && mv ~/.vimrc  ~/.vimrc.back || true
-	@[ -d ~/.vim ] && mv ~/.vim ~/.vim.back || true
+git:
+	@git config --global branch.autosetupmerge always
 
 delve:
 ifeq (, $(shell which dlv))
-		@echo "👉 installing debugger";;
-		@go get -u github.com/go-delve/delve/cmd/dlv;;
+		@echo "👉 installing debugger"
+		@go get -u github.com/go-delve/delve/cmd/dlv
 else
 		@echo " 👍 Delve already installed"
 endif

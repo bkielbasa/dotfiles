@@ -69,8 +69,13 @@ Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
 Plug 'ternjs/tern_for_vim'
 Plug 'preservim/nerdtree'
-Plug 'https://github.com/Valloric/YouCompleteMe'
 Plug 'mbbill/undotree'
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Or build from source code by using yarn: https://yarnpkg.com
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+
 Plug 'tpope/vim-fugitive'
 Plug 'chiel92/vim-autoformat'
 Plug 'tpope/vim-surround'
