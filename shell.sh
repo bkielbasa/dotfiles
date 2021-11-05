@@ -55,6 +55,7 @@ alias ct="ctags -R --exclude=.git --exclude=node_modules"
 alias dotfiles="ls -a | grep '^\.' | grep --invert-match '\.DS_Store\|\.$'"
 alias push="git push"
 alias pull="git pull"
+alias dc="docker-compose"
 
 # }}}
 
@@ -304,3 +305,25 @@ function postexec {
     set_running_app
 }
 # }}}
+
+function fp {
+  cd ~/Projects/`ls -l ~/Projects | awk '{print $9}' | fzf`
+  name=${PWD##*/}
+  if ! tmux has-session -t $name 2> /dev/null; then
+    tmux new -ds $name -c $name "nvim ~/Projects/$name"
+    tmux new-window -t $name:1 -n shell
+
+    tmux select-window -t 0
+
+    tmux a -t $name
+  fi
+}
+
+function clone {
+    cat ~/repos.txt | awk '{print $1}' | fzf | awk -F'/' '{print $1, $2}' | awk '{print $1"/"$2, " /Users/bartlomiejklimczak/Projects/"$2}' | xargs gh repo clone
+}
+
+# refresh cache for repos
+function rc {
+    gh repo list $1 -L 1000 --no-archived --source > ~/repos.txt
+}

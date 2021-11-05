@@ -63,18 +63,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'sheerun/vim-polyglot'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
-Plug 'ternjs/tern_for_vim'
 Plug 'preservim/nerdtree'
-Plug 'mbbill/undotree'
-" Use release branch (recommend)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Or build from source code by using yarn: https://yarnpkg.com
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'ycm-core/YouCompleteMe'
 
 Plug 'tpope/vim-fugitive'
 Plug 'chiel92/vim-autoformat'
@@ -86,16 +79,16 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ervandew/supertab'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'sebdah/vim-delve'
+Plug 'aklt/plantuml-syntax'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
 
-" NERDTree
-" open when opening a dir
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-" YouCompleteMe
-nnoremap gd :YcmCompleter GoToDefinition<CR>
+" harpoon
+nmap <leader>H :lua require("harpoon.mark").add_file()<CR>
+nmap <leader>q :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 " FZF
 nnoremap <silent> <C-f> :FZF<cr>
@@ -128,8 +121,9 @@ augroup go
 augroup END
 
 " git
-nmap <leader>C :Gcommit<cr>
-nmap <leader>p :Gpush<cr>
+nmap <leader>C :Git commit<cr>
+nmap <leader>p :Git push<cr>
+nmap <leader>B :GBranches<cr>
 
 " vim-autoformat
 let g:autoformat_autoindent = 0
@@ -142,13 +136,13 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
-" better key bindings for UltiSnipsExpandTrigger
+"reply better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-let g:UltiSnipsSnippetsDir = $HOME."~/.vim/mysnippets"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/mysnippets']
+let g:UltiSnipsSnippetsDir = $HOME."/.config/nvim/UltiSnips"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips']
 
 function! s:go_guru_scope_from_git_root()
   let gitroot = system("git rev-parse --show-toplevel | tr -d '\n'")
@@ -163,8 +157,6 @@ au FileType go silent exe "GoGuruScope " . s:go_guru_scope_from_git_root()
 nmap <leader>gl :diffget //3<CR>
 "" from left side
 nmap <leader>gh :diffget //2<CR>
-
-let @e = '$bCfmt.Errorf(": %w", err)bbbklklkliýa'
 " }}}
 
 " NERDTree
@@ -175,72 +167,8 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " YouCompleteMe
 nnoremap gd :YcmCompleter GoToDefinition<CR>
 
-" FZF
-nnoremap <silent> <C-f> :FZF<cr>
-
-" vim-go
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <leader>f  :GoTestFunc<cr>
-autocmd FileType go nmap <F6> :GoDebugStepOut<cr>
-autocmd FileType go nmap <F7> :GoDebugStep<cr>
-autocmd FileType go nmap <F10> :GoDebugNext<cr>
-nmap <F9> :GoDebugBreakpoint<cr>
-
-autocmd FileType go nmap <C-a>  :GoAlternate<cr>
-autocmd FileType go nmap <C-g>  :GoDecls<cr>
-autocmd FileType go nmap <C-h>  :GoDeclsDir<cr>
-nnoremap gf :GoReferrers<CR>
-autocmd FileType go nmap <leader>c :GoCoverageToggle<cr>
-let g:go_fmt_command = "goimports"
-let g:go_test_show_name = 1
-let g:go_auto_type_info = 1
-
-augroup go
-    autocmd!
-    autocmd Filetype go
-                \  command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-                \| command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-                \| command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-augroup END
-
-" git
-nmap <leader>C :Gcommit<cr>
-nmap <leader>p :Gpush<cr>
-
-" vim-autoformat
-let g:autoformat_autoindent = 0
-let g:autoformat_retab = 0
-let g:autoformat_remove_trailing_spaces = 0
-autocmd FileType go let b:autoformat_autoindent=1
-
-" ultisnips
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-let g:UltiSnipsSnippetsDir = $HOME."~/.vim/mysnippets"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/mysnippets']
-
-function! s:go_guru_scope_from_git_root()
-  let gitroot = system("git rev-parse --show-toplevel | tr -d '\n'")
-  let pattern = escape(go#util#gopath() . "/src/", '\ /')
-  return substitute(gitroot, pattern, "", "") . "/... -vendor/"
-endfunction
-
-au FileType go silent exe "GoGuruScope " . s:go_guru_scope_from_git_root()
-
-" fugitive
-"" from right side
-nmap <leader>gl :diffget //3<CR>
-"" from left side
-nmap <leader>gh :diffget //2<CR>
-
-let @e = '$bCfmt.Errorf(": %w", err)bbbklklkliýa'
-" }}}
+" Easier Quickfix Menu Navigation "
+map <C-Right> :cnext<CR>
+map <C-Left> :cprevious<CR>
+map <C-Down> :cclose<CR>
+map <C-Up> :copen<CR>
