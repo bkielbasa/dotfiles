@@ -307,6 +307,11 @@ function postexec {
 # }}}
 
 function fp {
+  proj=`ls -l ~/Projects | awk '{print $9}' | fzf`
+  if [ -z "$var" ]
+  then
+      return
+  fi
   cd ~/Projects/`ls -l ~/Projects | awk '{print $9}' | fzf`
   name=${PWD##*/}
   if ! tmux has-session -t $name 2> /dev/null; then
@@ -314,9 +319,8 @@ function fp {
     tmux new-window -t $name:1 -n shell
 
     tmux select-window -t 0
-
-    tmux a -t $name
   fi
+  tmux a -t $name
 }
 
 function clone {
@@ -326,4 +330,8 @@ function clone {
 # refresh cache for repos
 function rc {
     gh repo list $1 -L 1000 --no-archived --source > ~/repos.txt
+}
+
+function gch {
+    git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)
 }

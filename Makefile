@@ -26,3 +26,6 @@ ifeq (, $(shell which thefuck))
 else
 		@echo " 👍 thefuck already installed"
 endif
+
+brew:
+	@brew install ripgrep

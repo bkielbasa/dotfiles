@@ -63,6 +63,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-commentary'
@@ -91,11 +92,18 @@ nmap <leader>H :lua require("harpoon.mark").add_file()<CR>
 nmap <leader>q :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 " FZF
-nnoremap <silent> <C-f> :FZF<cr>
+" nnoremap <silent> <C-f> :FZF<cr>
+
+" telescope
+nnoremap <silent> <C-f> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " vim-go
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>r  :GoReferrers
+autocmd FileType go nmap <leader>i  :GoImplements<cr>
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>f  :GoTestFunc<cr>
 autocmd FileType go nmap <F6> :GoDebugStepOut<cr>
@@ -106,7 +114,6 @@ nmap <F9> :GoDebugBreakpoint<cr>
 autocmd FileType go nmap <C-a>  :GoAlternate<cr>
 autocmd FileType go nmap <C-g>  :GoDecls<cr>
 autocmd FileType go nmap <C-h>  :GoDeclsDir<cr>
-nnoremap gf :GoReferrers<CR>
 autocmd FileType go nmap <leader>c :GoCoverageToggle<cr>
 let g:go_fmt_command = "goimports"
 let g:go_test_show_name = 1
