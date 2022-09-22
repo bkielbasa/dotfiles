@@ -1,4 +1,5 @@
 -- relative line numbers
+-- :
 vim.cmd [[
 set number relativenumber
 augroup numbertoggle

@@ -1,5 +1,6 @@
 require('general')
 require('plugins')
+require('lsp')
 require('format')
 require('theme')
 require('statusline')
