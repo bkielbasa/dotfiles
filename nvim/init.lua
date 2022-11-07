@@ -1,10 +1,17 @@
 require('general')
 require('plugins')
 require('lsp')
+require('diagnostics')
 require('format')
 require('theme')
 require('statusline')
 require('snippets')
+
+-- add a new line before/after the current line
+vim.cmd [[
+nnoremap <silent> ]<space>  :<c-u>put =repeat([''],v:count)<bar>'[-1<cr>
+nnoremap <silent> [<space>  :<c-u>put!=repeat([''],v:count)<bar>']+1<cr>
+]]
 
 -- plugins configuration
 vim.cmd [[

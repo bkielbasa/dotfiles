@@ -1,15 +1,12 @@
 
-install: delve thefuck neovim
+install: apps delve thefuck
 
-neovim:
-	@brew install cmake python mono go nodejs
-	@mkdir ~/.config/nvim || echo "neovim config dir exists"
-	@curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	@ln -s $(pwd)/nvim.init.vim ~/.config/nvim/init.vim
-	@nvim +PlugInstall
+apps:
+	@brew install iterm2 hugo zsh tmux thefuck npm spotify raycast dropbox go gpg
 
 git:
 	@git config --global branch.autosetupmerge always
+	@git config --global commit.gpgsign true
 
 delve:
 ifeq (, $(shell which dlv))

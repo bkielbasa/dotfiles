@@ -1,1 +1,1 @@
-source /Users/bkielbasa/Projects/dotfiles/shell.sh
+source /Users/bklimcza/Projects/dotfiles/shell.sh

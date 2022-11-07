@@ -2,10 +2,6 @@
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
 
-# kubernetes {{{
-if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
-# }}}
-
 # thefuck {{{
 eval $(thefuck --alias)
 # }}}
@@ -323,15 +319,16 @@ function fp {
   tmux a -t $name
 }
 
-function clone {
-    cat ~/repos.txt | awk '{print $1}' | fzf | awk -F'/' '{print $1, $2}' | awk '{print $1"/"$2, " /Users/bartlomiejklimczak/Projects/"$2}' | xargs gh repo clone
-}
-
-# refresh cache for repos
-function rc {
-    gh repo list $1 -L 1000 --no-archived --source > ~/repos.txt
-}
-
 function gch {
     git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)
 }
+
+function tat {
+  if [ -z "$1" ]; then;
+    session_name=$(basename `pwd`)
+  else
+    session_name=$1
+  fi
+  tmux new-session -s $session_name
+}
+eval "$(/opt/homebrew/bin/brew shellenv)"
