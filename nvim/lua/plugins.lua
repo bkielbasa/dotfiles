@@ -1,53 +1,98 @@
-vim.cmd [[packadd packer.nvim]]
+local vim = vim
+local Plug = vim.fn['plug#']
 
-return require('packer').startup(function(use)
-	use 'fatih/vim-go'
-    use { 'sago35/tinygo.vim' }
-    use { 'sebdah/vim-delve' }
-	use 'junegunn/fzf'
-	use 'junegunn/fzf.vim'
-	use 'SirVer/ultisnips'
-	use 'honza/vim-snippets'
-	use 'nvim-lua/plenary.nvim'
-	use 'ThePrimeagen/harpoon'
-	use 'preservim/nerdtree'
-	use 'tpope/vim-commentary'
-	use 'tpope/vim-fugitive'
-	use {
-		"neovim/nvim-lspconfig",
-		event = "BufReadPre",
-		wants = { "nvim-lsp-installer" },
-		config = function()
-			require("config.lsp").setup()
-		end,
-		requires = {
-			"williamboman/nvim-lsp-installer",
-		},
-	}
+vim.call('plug#begin')
 
-	-- Better UI than native LSP dialogs
-    use 'glepnir/lspsaga.nvim'
-    use 'folke/tokyonight.nvim'
-    use {
-            'nvim-lualine/lualine.nvim',
-            requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
+Plug('fatih/vim-go', { ['tag'] = '*' })
+Plug('ThePrimeagen/harpoon')
+Plug('preservim/nerdtree')
+Plug('neovim/nvim-lspconfig')
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope.nvim')
+Plug('nvim-treesitter/nvim-treesitter')
+Plug('folke/which-key.nvim')
 
-    use ('prettier/vim-prettier')
-    use { 'sbdchd/neoformat' }
-    use {'dcampos/nvim-snippy'}
-    use {
-        "folke/which-key.nvim",
-        config = function()
-            require("which-key").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        end
-    }
+-- theme
+Plug('navarasu/onedark.nvim')
 
-    use {'jparise/vim-graphql'}
+vim.call('plug#end')
 
-end)
+local lspconfig = require('lspconfig')
+lspconfig.gopls.setup {
+  -- Server-specific settings. See `:help lspconfig-setup`
+  settings = {
+    ['gopls'] = {},
+  },
+}
 
+lspconfig.tsserver.setup {}
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function()
+    local bufmap = function(mode, lhs, rhs)
+      local opts = {buffer = true}
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    -- Displays hover information about the symbol under the cursor
+    bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+
+    -- Jump to the definition
+    bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+
+    -- Jump to declaration
+    bufmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+
+    -- Lists all the implementations for the symbol under the cursor
+    bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+
+    -- Jumps to the definition of the type symbol
+    bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+
+    -- Lists all the references 
+    bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+
+    -- Displays a function's signature information
+    bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+
+    -- Renames all references to the symbol under the cursor
+    bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+
+    -- Selects a code action available at the current cursor position
+    bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+
+    -- Show diagnostics in a floating window
+    bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
+    -- Move to the previous diagnostic
+    bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+
+    -- Move to the next diagnostic
+    bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+  end
+})
+
+-- telesope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = "*.gohtml",
+  callback = function()
+    vim.bo.filetype = "html"
+  end,
+})
+
+vim.cmd[[
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+
+" Start NERDTree. If a file is specified, move the cursor to its window.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
+]]

@@ -1,3 +1,6 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- relative line numbers
 -- :
 vim.cmd [[
@@ -9,13 +12,7 @@ augroup numbertoggle
 augroup END
 ]]
 
-vim.cmd [[
-nmap <F7> :cp<cr>
-nmap <F8> :cn<cr>
-nmap <leader>c :cclose<cr>
-]]
 
--- Convert tabs to spaces
 vim.cmd [[
 " Use vim, not vi api
 set nocompatible
