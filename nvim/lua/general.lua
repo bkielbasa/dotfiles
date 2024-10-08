@@ -12,6 +12,11 @@ augroup numbertoggle
 augroup END
 ]]
 
+-- add a new line before/after the current line
+vim.cmd [[
+nnoremap <silent> ]<space>  :<c-u>put =repeat([''],v:count)<bar>'[-1<cr>
+nnoremap <silent> [<space>  :<c-u>put!=repeat([''],v:count)<bar>']+1<cr>
+]]
 
 vim.cmd [[
 " Use vim, not vi api
@@ -53,3 +58,10 @@ set lazyredraw
 " highlight a matching [{()}] when cursor is placed on start/end character
 set showmatch
 ]]
+
+--- harpoon
+vim.api.nvim_set_keymap('n', '<leader>h', [[<cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>H', [[<cmd>lua require('harpoon.mark').add_file()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>k', [[<cmd>lua require('harpoon.ui').nav_next()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>j', [[<cmd>lua require('harpoon.ui').nav_prev()<CR>]], { noremap = true, silent = true })
+
