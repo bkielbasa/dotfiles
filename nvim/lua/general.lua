@@ -57,6 +57,10 @@ set lazyredraw
 
 " highlight a matching [{()}] when cursor is placed on start/end character
 set showmatch
+
+" enable syntax based folding
+set foldmethod=syntax
+set foldlevel=10
 ]]
 
 --- harpoon
