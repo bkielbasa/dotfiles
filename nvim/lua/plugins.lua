@@ -11,6 +11,7 @@ Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope.nvim')
 Plug('nvim-treesitter/nvim-treesitter')
 Plug('folke/which-key.nvim')
+Plug('tpope/vim-commentary')
 
 -- theme
 Plug('navarasu/onedark.nvim')
@@ -72,6 +73,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
   end
 })
+
+
+require('nvim-treesitter.configs').setup {
+    ensure_installed = "all", -- Install all parsers
+    highlight = {
+        enable = true,         -- Enable syntax highlighting
+    },
+}
 
 -- telesope
 local builtin = require('telescope.builtin')
